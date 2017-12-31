@@ -1,0 +1,93 @@
+#include <Servo.h>//引用舵机的库
+Servo myservo1;
+Servo myservo2;
+Servo myservo3;
+Servo myservo4;
+//上面这段负责定义舵机
+
+const int delaytime=110;//设置一个常量，负责转动速度
+//下面负责定义和声明负责敲击的函数
+void hit1()
+{
+myservo1.write(0);//舵机的初始角度值为0
+delay(delaytime);//设置转动速度
+myservo1.write(90);//舵机转动角度值为90
+delay(delaytime);//设置恢复速度
+}
+//以下函数定义与第一个相似
+
+void hit2()
+{ 
+myservo2.write(0);
+delay(delaytime);
+myservo2.write(90);
+delay(delaytime);
+}
+
+void hit3()
+{
+myservo3.write(0);
+delay(delaytime);
+delay(50);
+myservo3.write(90);
+delay(delaytime);
+}
+
+void hit4()
+{
+myservo4.write(0);
+delay(delaytime);
+myservo4.write(90);
+delay(delaytime);
+}
+
+void setup()
+{
+  Serial.begin(115200); //设置串口波特率
+//pinMode(5,INPUT_PULLUP);
+//pinMode(4,INPUT_PULLUP);
+myservo1.attach(10);//设置第一个舵机的引脚
+myservo2.attach(9);//设置第二个舵机的引脚
+myservo3.attach(6);//设置第三个舵机的引脚
+myservo4.attach(5);//设置第四个舵机的引脚
+
+/*myservo1.write(89);
+myservo2.write(99);
+myservo3.write(100);
+myservo4.write(105);*/
+//这段注释本来是用来设置初始值的，后来感觉没什么用先注释掉
+}
+void loop()
+{
+    int n= analogRead(A0);   // 读取模拟口A0，获取光强
+      Serial.println("1: ");
+      Serial.println(n);    // 用于IDE串口观察窗
+    int m= analogRead(A1);   // 读取模拟口A1，获取光强
+      Serial.println("2: ");
+      Serial.println(m);
+    int x= analogRead(A2);   // 读取模拟口A2，获取光强
+      Serial.println("3: ");
+      Serial.println(x); 
+    int y= analogRead(A3);   // 读取模拟口A3，获取光强
+      Serial.println("4: ");
+      Serial.println(y); 
+//下面这段负责主要功能，检测光强，当光强很弱时，敲击,至于900这个数值，基于现场环境和手机亮度可以更改的啦
+const int light=900;
+if (n > light)
+{
+hit1();
+};
+if (m > light)
+{
+hit2();
+}
+if (x > light)
+{
+hit3();
+}
+if (y > light)
+{
+hit4();
+}
+delay(100);//设置延迟时间
+}
